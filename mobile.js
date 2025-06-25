@@ -4,61 +4,51 @@ let musicStarted = false;
 class Paper {
   constructor(paper) {
     this.paper = paper;
-    this.holdingPaper = false;
-    this.mouseX = 0;
-    this.mouseY = 0;
-    this.prevMouseX = 0;
-    this.prevMouseY = 0;
-    this.velX = 0;
-    this.velY = 0;
-    this.currentPaperX = 0;
-    this.currentPaperY = 0;
+    this.holding = false;
+    this.startX = 0;
+    this.startY = 0;
+    this.currentX = 0;
+    this.currentY = 0;
+    this.offsetX = 0;
+    this.offsetY = 0;
     this.init();
   }
 
   init() {
-    document.addEventListener('mousemove', (e) => {
-      this.mouseX = e.clientX;
-      this.mouseY = e.clientY;
-
-      this.velX = this.mouseX - this.prevMouseX;
-      this.velY = this.mouseY - this.prevMouseY;
-
-      if (this.holdingPaper) {
-        this.currentPaperX += this.velX;
-        this.currentPaperY += this.velY;
-
-        this.prevMouseX = this.mouseX;
-        this.prevMouseY = this.mouseY;
-
-        this.paper.style.transform = `translate(${this.currentPaperX}px, ${this.currentPaperY}px)`;
-      }
-    });
-
-    this.paper.addEventListener('mousedown', (e) => {
-      if (this.holdingPaper) return;
-      this.holdingPaper = true;
+    this.paper.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      this.startX = touch.clientX - this.offsetX;
+      this.startY = touch.clientY - this.offsetY;
+      this.holding = true;
 
       this.paper.style.zIndex = highestZ++;
-      this.prevMouseX = this.mouseX;
-      this.prevMouseY = this.mouseY;
-
-      // Play background music if it's the heart paper
-      if (this.paper.classList.contains('paper') && !musicStarted) {
-        const bgMusic = document.getElementById('bg-music');
-        bgMusic.play();
-        musicStarted = true;
+      if (this.paper.classList.contains('heart') && !musicStarted) {
+        const music = document.getElementById('bg-music');
+        if (music) {
+          music.play().catch(err => console.log("Autoplay error:", err));
+          musicStarted = true;
+        }
       }
     });
 
-    window.addEventListener('mouseup', () => {
-      this.holdingPaper = false;
+    this.paper.addEventListener('touchmove', (e) => {
+      if (!this.holding) return;
+      const touch = e.touches[0];
+
+      this.offsetX = touch.clientX - this.startX;
+      this.offsetY = touch.clientY - this.startY;
+
+      this.paper.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px)`;
+      e.preventDefault();
+    });
+
+    this.paper.addEventListener('touchend', () => {
+      this.holding = false;
     });
   }
 }
 
- function toggleFold(element) {
-    element.classList.toggle('open');
-  }
-const papers = Array.from(document.querySelectorAll('.paper'));
-papers.forEach(paper => new Paper(paper));
+document.addEventListener("DOMContentLoaded", () => {
+  const papers = document.querySelectorAll('.paper');
+  papers.forEach(paper => new Paper(paper));
+});
