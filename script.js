@@ -57,17 +57,8 @@ class Paper {
   }
 }
 
-
-
  function toggleFold(element) {
     element.classList.toggle('open');
   }
 const papers = Array.from(document.querySelectorAll('.paper'));
 papers.forEach(paper => new Paper(paper));
-
-
-
-
-
-
-
