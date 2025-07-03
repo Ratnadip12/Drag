@@ -28,6 +28,7 @@ body {
 }
 
 .paper.heart {
+  background-image: url("images/bg.jpeg");
   position: relative;
   width: 200px;
   height: 200px;
@@ -51,7 +52,7 @@ img {
 
 .paper.heart::after {
   content: "";
-  background-image: url('images/20250624_151903.png');
+  background-image: url('images/srhr.png');
   width: 100%;
   height: 100%;
   position: absolute;
@@ -60,7 +61,7 @@ img {
   background-size: 150px;
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 0.999999;
+  opacity: 0.9;
 }
 
 p {
