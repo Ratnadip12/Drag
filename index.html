@@ -8,6 +8,7 @@
 </head>
 <body>
 
+
 <div class="paper paper1 foldable" onclick="toggleFold(this)">
   <div class="fold-header">Click to Open the Note 💌</div>
   <div class="fold-content">
@@ -34,14 +35,19 @@
 </div>
 
 <div class="paper">
-  <p style="font-size: 30px;">This journey has not </p>
-  <p class="" style="text-align: center; font-size: 30px;">been easy</p>
+  <p style="font-size: 30px;">This journey so far hasn't been easy </p>
+  <p class="" style="text-align: center; font-size: 30px;"></p>
 </div>
 
 <div class="paper image">
-  <p>To 17 Years Old</p>
-    <p style="text-align: center; line-height: 0.2;">Srija</p>
-   <img src="images/IMG-20250419-WA0004.jpg" />
+  <p style="font-size:18px;line-height: 0.2;">To standing at the edge</p>
+    <p style="text-align: center; font-size:18px;line-height: 0.2;">of the Childhood </p>
+    <p style="text-align: center; font-size:18px;line-height: 0.2;">and Adulthood</p>
+   <img src="images/IMG_20250701_224458.jpg" />
+</div>
+
+<div class="paper image">
+   <img src="images/IMG_20250611_224519.jpg" />
 </div>
 
 <div class="paper image">
@@ -51,9 +57,7 @@
 </div>
 
 <div class="paper image">
-  <p>The School Girl</p>
-    <p style="text-align: center; line-height: 0.5;">(Age 16 Years)</p>
-   <img src="images/IMG_20250502_130518.jpg" />
+  <img src="images/IMG-20250419-WA0004.jpg" />
 </div>
 
 <div class="paper image">
@@ -62,24 +66,34 @@
    <img src="images/IMG-20250419-WA0001.jpg" />
 </div>
 
-<div class="paper image">
-  <p style="text-align: center;">12 Years Old</p>
-  <image src="images/IMG_20250626_110515.jpg" />
-</div>
 
 <div class="paper image">
   <p style="text-align: center;">The Moida Girl</p>
   <image src="images/IMG_20250611_224554.jpg" />
 </div>
 
-
 <div class="paper image">
   <p>An Aesthetic ka</p>
    <p style="text-align: center; line-height: 0.1;">14 Girl </p>
-
   <img src="images/IMG_20241113_174546.jpg" />
 </div>
 
+<div class="paper image">
+  <p>17 Years Old</p>
+    <p style="text-align: center; line-height: 0.2;">Srija</p>
+  <img src="images/IMG_20250611_224457.jpg" />
+</div>
+
+<div class="paper image">
+  <p>The School Girl</p>
+    <p style="text-align: center; line-height: 0.5;">(Age 16 Years)</p>
+   <img src="images/IMG_20250502_130518.jpg" />
+</div>
+
+<div class="paper image">
+  <p style="text-align: center;">12 Years Old</p>
+  <image src="images/IMG_20250626_110515.jpg" />
+</div>
 
 <div class="paper age">
   <p style="line-height: 0;">A Childhood Friend</p>
@@ -111,6 +125,54 @@
 <audio id="bg-music" loop>
   <source src="happy-birthday-258264.mp3" type="audio/mpeg">
 </audio> 
+
+<div id="countdown"
+     style="position:fixed; top:40%; left:50%; transform:translate(-50%, -50%);
+            font-size: 30px; padding: 20px;
+            border-radius: 10px; z-index: 9999;">
+  Countdown: <span id="timer">Loading...</span>
+</div>
+
+<script>
+  const targetDate = new Date("July 4, 2025 01:21:00").getTime();
+  const timerEl = document.getElementById("timer");
+  const countdownBox = document.getElementById("countdown");
+  const allPapers = document.querySelectorAll('.paper');
+  const music = document.getElementById("bg-music");
+
+  // Initially hide all papers
+  allPapers.forEach(paper => {
+    paper.style.display = "none";
+  });
+
+  const interval = setInterval(() => {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      clearInterval(interval);
+      countdownBox.style.display = "none";
+
+      // Show all papers
+      allPapers.forEach(paper => {
+        paper.style.display = "block";
+      });
+
+      // Try to play music
+      music.play().catch(err => {
+        console.log("Autoplay blocked:", err);
+      });
+
+    } else {
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      timerEl.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+  }, 1000);
+</script>
 
 <!-- partial -->
 <script  src="./script.js"></script>
